@@ -1,0 +1,54 @@
+{
+    "name": "websocket",
+    "version": "1.0.0",
+    "description": "websocket boilerplate",
+    "main": "src/index.ts",
+    "type": "module",
+    "scripts": {
+        "start": "node --experimental-strip-types src/index.ts",
+        "start:dev": "node --watch --experimental-strip-types --env-file=.env src/index.ts",
+        "type-check": "tsc --noEmit",
+        "format": "prettier . --check",
+        "format:fix": "prettier . --write",
+        "lint": "eslint",
+        "lint:fix": "eslint --fix",
+        "test": "node --experimental-strip-types --test src/**/*.test.ts",
+        "test:watch": "node --experimental-strip-types --test --watch src/**/*.test.ts"
+    },
+    "keywords": [
+        "node",
+        "typescript",
+        "websocket"
+    ],
+    "homepage": "https://github.com/pedrozc90/websocket#readme",
+    "bugs": {
+        "url": "https://github.com/pedrozc90/websocket/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/pedrozc90/websocket.git"
+    },
+    "license": "MIT",
+    "author": "pedrozc90",
+    "dependencies": {
+        "typescript": "^6.0.3",
+        "winston": "^3.19.0"
+    },
+    "devDependencies": {
+        "@eslint/js": "^10.0.1",
+        "@eslint/json": "^2.0.1",
+        "@types/node": "^24.13.3",
+        "@types/supertest": "^7.2.0",
+        "eslint": "^10.7.0",
+        "globals": "^17.7.0",
+        "jiti": "^2.7.0",
+        "prettier": "^3.9.5",
+        "supertest": "^7.2.2",
+        "typescript-eslint": "^8.63.0",
+        "vitest": "^4.1.10"
+    },
+    "engines": {
+        "node": ">=24.0.0",
+        "npm": ">=11.0.0"
+    }
+}

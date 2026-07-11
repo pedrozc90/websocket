@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+set -e
+
+# Only act if staged changes touch front-21
+files=$(git diff --cached --name-only --diff-filter=ACM -- 'src/*')
+
+[ -z "$files" ] && exit 0
+
+command -v npx >/dev/null 2>&1 || { echo "npx not found, skipping format/lint"; exit 0; }
+
+[ -d node_modules ] || { echo "node_modules not found, skipping format/lint (run npm install)"; exit 0; }
+
+# Run prettier on staged files
+echo "$files" | xargs -r npx prettier --write --ignore-unknown
+
+# Lint, but don't block the commit on it (formatting is the hard requirement)
+ts_files=$(echo "$files" | grep -E '\.(ts)$')
+[ -n "$ts_files" ] && echo "$ts_files" | xargs -r npx eslint
+
+# Type-check the whole project — this DOES block the commit
+if [ -n "$ts_files" ]; then
+    echo "Running type-check..."
+    npx tsc --noEmit || { echo "Type-check failed. Commit blocked."; exit 1; }
+fi
+
+# Re-add formatted files to the commit
+echo "$files" | xargs -r git add

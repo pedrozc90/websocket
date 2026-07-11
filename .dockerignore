@@ -1,0 +1,33 @@
+# IntelliJ
+.idea
+
+# VS Code
+.vscode
+
+# Node
+dist
+node_modules
+
+# Git
+.git
+.gitignore
+.gitattributes
+.gitmodules
+.githooks
+
+# Docker
+docker-compose.yml
+.dockerignore
+
+# Files
+logs
+test
+coverage
+.env
+.env.*
+.prettierignore
+.prettierrc
+eslint.config.ts
+Makefile
+mise.toml
+vitest.config.ts
