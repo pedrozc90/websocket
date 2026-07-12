@@ -1,3 +1,5 @@
+import { inspect } from "node:util";
+
 const ANSI_PATTERN = /\x1b\[[0-9;]*m/g;
 
 const visibleLength = (str: string): number => {
@@ -18,6 +20,20 @@ export const fitWidth = (str: string, width: number, suffix = "…"): string => 
     return padEnd(truncate(str, width, suffix), width);
 };
 
-export const stringify = (value: unknown): string => {
-    return JSON.stringify(value, undefined, 1).replace(/\n\s*/g, " ");
+export const stringify = (value: unknown): string | undefined => {
+    try {
+        const clean = Object.fromEntries(Object.entries(value as Record<string, unknown>));
+        return inspect(clean, {
+            depth: null,
+            compact: true,
+            breakLength: Infinity,
+            showHidden: false
+        });
+    } catch (err) {
+        try {
+            return String(value);
+        } catch {
+            return undefined
+        }
+    }
 };

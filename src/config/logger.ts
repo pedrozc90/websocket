@@ -1,6 +1,6 @@
 import winston from "winston";
 import { settings } from "./settings.ts";
-import { fitWidth, stringify } from "../utils/string.ts";
+import { fitWidth, stringify } from "../utils/strings.ts";
 
 const formatter = winston.format.printf(({ level, message, timestamp, service, module, ...meta }) => {
     const levelCol = fitWidth("[" + level + "]", 7);
@@ -22,6 +22,6 @@ export const logger = winston.createLogger({
     ],
 });
 
-export const createLogger = (name: string) => {
-    return logger.child({ module: name });
+export const createLogger = (module: string) => {
+    return logger.child({ module: module });
 };

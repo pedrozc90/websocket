@@ -1,7 +1,7 @@
+import assert from "node:assert";
 import { test, describe, before, after } from "node:test";
-import assert from "node:assert/strict";
 import type { AddressInfo } from "node:net";
-import { createServer } from "./server.ts";
+import { createServer } from "./app.ts";
 
 describe("http server", () => {
     let server: ReturnType<typeof createServer>;

@@ -1,6 +1,5 @@
 import { settings, logger } from "./config/index.ts";
-import { createServer } from "./server.ts";
-import { createWebSocketServer } from "./ws/index.ts";
+import { createServer, createWebSocketServer } from "./app.ts";
 
 const { environment, port, version } = settings;
 
