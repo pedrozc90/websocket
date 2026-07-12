@@ -24,6 +24,10 @@ setup: ## setup development
 run: ## run application on development mode
 	npm run start:dev
 
+.PHONY: client
+client: ## run application on development mode
+	node --watch --experimental-strip-types client/index.ts
+
 .PHONY: test
 test: ## run tests
 	npm test

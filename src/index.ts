@@ -1,11 +1,13 @@
 import { settings, logger } from "./config/index.ts";
 import { createServer } from "./server.ts";
+import { createWebSocketServer } from "./ws/index.ts";
 
 const { environment, port, version } = settings;
 
 const server = createServer();
+const websocket = createWebSocketServer(server);
 
-server.listen(port, "0.0.0.0");
+server.listen(port);
 
 server.on("listening", () => {
     if (!server.listening) return;
@@ -55,7 +57,7 @@ const shutdown = async (signal: string): Promise<void> => {
     if (shuttingDown) return;
     shuttingDown = true;
 
-    logger.info(`${signal} received. Shutting down gracefully...`);
+    logger.info(`Received '${signal}' received. Shutting down gracefully...`);
 
     const forceExitTimer = setTimeout(() => {
         logger.info("Graceful shutdown timed out. Forcing exit.");
@@ -65,14 +67,10 @@ const shutdown = async (signal: string): Promise<void> => {
     forceExitTimer.unref();
 
     try {
-        await new Promise<void>((resolve, reject) => {
-            server.close((error) => {
-                if (error) {
-                    return reject(error);
-                }
-                resolve();
-            });
-        });
+        await Promise.all([
+            new Promise<void>((resolve) => websocket.close(() => resolve())),
+            new Promise<void>((resolve, reject) => server.close((err) => (err ? reject(err) : resolve()))),
+        ]);
 
         logger.info("Shutdown complete");
         process.exit(0);
